@@ -1,54 +1,108 @@
+@font-face {
+  font-family: 'Gidole';
+  src: url(./fonts/Gidole-Regular.eot);
+  src: url(./fonts/Gidole-Regular.eot?#iefix) format('embedded-opentype'),
+      url(./fonts/Gidole-Regular.woff2) format('woff2'),
+      url(./fonts/Gidole-Regular.woff) format('woff'),
+      url(./fonts/Gidole-Regular.ttf) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 20vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo.rotate {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-div.inline-logo {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-}
-
-div.inline-logo > img {
-  margin-right: 3vw;
-}
-
-div.inline-logo .smaller {
-  height: 10vh;
+  width: 100%;
+  height: 100%;
+  font-family: 'Gidole';
+  overflow-y: hidden;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #E3E5DD;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
-  margin-bottom: 5vh;
+.frames {
+  display: grid;
+  grid-template-columns: 30% 40%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.frames .nav {
+  position: relative;
+  width: calc(100% - 40px);
+  min-height: 100vh;
+  background-color: #2F2A37;
+
+  padding-left: 20px; padding-right: 20px;
+}
+
+.frames .nav .items {
+  margin-top: 15px;
+  position: relative;
+}
+
+.frames .nav h2, .frames .nav .items h3 {
+  color: #E3E5DD;
+  letter-spacing: 6px;
+  margin-top: 10px; margin-bottom: 10px;
+}
+
+.frames .nav h2 {
+  font-size: 42px;
+  background: -webkit-linear-gradient(#E3E5DD, #a38181);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 20px;
+}
+
+.frames .nav .items h3 {
+  width: 100%;
+  height: 40px;
+  font-weight: 100;
+  font-size: 20px;
+  padding-top: 20px;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding-left: 0;
+  background: -webkit-linear-gradient(#E3E5DD, #E3E5DD);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  background: linear-gradient(90deg,  0%,  5%);
+  transition: padding-left 0.3s ease,
+              background 0.3s ease;
+}
+
+.frames .nav .items h3:hover {
+  padding-left: 10px;
+  background: -webkit-linear-gradient(#E3E5DD, #d87d8c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.arrow-left {
+  width: 0; 
+  height: 0; 
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent; 
+  
+  border-right: 15px solid #E3E5DD; 
+}
+
+.frames .nav .items .tabSelector {
+  position: absolute;
+  right: -20px; /* account for padding */
+
+  transition: top 0.3s ease;
 }
