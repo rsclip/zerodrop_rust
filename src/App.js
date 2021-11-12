@@ -103,62 +103,74 @@ class App extends React.Component {
               this.state.visibleTab == "embed"
                 ? <div className="content">
                     <h1>Embed messages</h1>
-                    <h4>Input message:</h4>
+                    <h4>Input message</h4>
                     <textarea
+                      id="embedInput"
                       placeholder="Regular message here.." 
                       value={this.state.embedInput}
                       onChange={(e) => {this.setState({embedInput: e.target.value})}}
                     />
+                    <div className="textAreaButtonContainer">
+                      
+                    </div>
                     <button 
+                      id="embedInputCopy"
                       className="textareaButton left"
                       onClick={(e) => {this.copy(this.state.embedInput)}}
                     >Copy</button>
                     <button 
+                      id="embedInputPaste"
                       className="textareaButton right"
                       onClick={(e) => {this.setState({
                         embedInput: this.pasteInto('embed')
                       })}}
                     >Paste</button>
 
-                    <h4>Hidden msg:</h4>
+                    <h4>Hidden message</h4>
                     <textarea
+                      id="embedHidden"
                       placeholder="Enter your hidden message here" 
                       value={this.state.embedHiddenInput}
                       onChange={(e) => {this.setState({embedHiddenInput: e.target.value})}}
                     />
                     <button 
+                      id="embedHiddenCopy"
                       className="textareaButton left"
                       onClick={(e) => {this.copy(this.state.embedHiddenInput)}}
                     >Copy</button>
                     <button 
+                      id="embedHiddenPaste"
                       className="textareaButton right"
                       onClick={(e) => {this.setState({
                         embedHiddenInput: this.pasteInto('embedHiddenInput')
                       })}}
                     >Paste</button>
                   
-                    <h4>Output:</h4>
+                    <h4>Output</h4>
                     <textarea readOnly
+                      id="embedOutput"
                       placeholder="When you convert your message, it'll appear here." 
                       value={this.state.embedOutput}
                       onChange={(e) => {}}
                     />
                     
                     <button 
+                      id="embedOutputCopy"
                       className="textareaButton left"
                       onClick={(e) => {this.copy(this.state.embedOutput)}}
                     >Copy</button>
                     <button 
+                      id="embedOutputClear"
                       className="textareaButton right"
                       onClick={(e) => {this.setState({embedOutput: ""})}}
                     >Clear</button>
-                    <br/><br/>
                     <div class="buttonCenter">
                       <button 
                         class="action"
                         onClick={(e) => this.embed(this.state.embedInput)}
                       >Convert</button>
                     </div>
+                    <br/>
                     <div className="tip info moveDown">Use the password tab to further secure your messages.</div>
                   
                   </div>
