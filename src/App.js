@@ -1,31 +1,71 @@
 import React from 'react'
 import './App.css'
 
+import { invoke } from '@tauri-apps/api/tauri'  
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabTop: 15,
+      tabTop: 15, // tab top px
+      visibleTab: "embed", // yeah
+      embedInput: "", // embed input textarea text
+      embedHiddenInput: "", // embed hidden msg
+      embedOutput: "", // embed output textarea text
+      password: "example",
     };
   }
 
   changeTab(event, arg) {
     switch(arg) {
       case "embed":
-        this.setState({tabTop: 15});
+        this.setState({tabTop: 15, visibleTab: arg});
         break;
       case "extract":
-        this.setState({tabTop: 15 + 70});
+        this.setState({tabTop: 15 + 70, visibleTab: arg});
         break;
       case "passwords":
-        this.setState({tabTop: 15 + 140});
+        this.setState({tabTop: 15 + 140, visibleTab: arg});
         break;
       case "help":
-        this.setState({tabTop: 15 + 210});
+        this.setState({tabTop: 15 + 210, visibleTab: arg});
         break;
     }
-    
-    console.log("changed tab", arg, this.state.tabTop);
+  }
+
+  copy(text) {
+    invoke('copy_text', {'text': text})
+      .then((message) => {})
+      .catch((error) => {})
+  }
+
+  pasteInto(into) {
+    invoke('paste')
+      .then((message) => {
+        switch (into) {
+          case "embed":
+            this.setState({embedInput: message});
+          case "embedHiddenInput":
+            this.setState({embedHiddenInput: message});
+        }
+      })
+      .catch((err) => {console.log("nooo");})
+  }
+
+  embed(inp) {
+    invoke('embed', {
+      input: inp,
+      msg: this.state.embedHiddenInput,
+      password: this.state.password,
+    })
+      .then((resp) => {
+        this.setState({
+          embedOutput: resp
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
   }
 
   render() {
@@ -58,6 +98,73 @@ class App extends React.Component {
                   style={{top: this.state.tabTop}}></div>
               </div>
             </div>
+
+            {
+              this.state.visibleTab == "embed"
+                ? <div className="content">
+                    <h1>Embed messages</h1>
+                    <h4>Input message:</h4>
+                    <textarea
+                      placeholder="Regular message here.." 
+                      value={this.state.embedInput}
+                      onChange={(e) => {this.setState({embedInput: e.target.value})}}
+                    />
+                    <button 
+                      className="textareaButton left"
+                      onClick={(e) => {this.copy(this.state.embedInput)}}
+                    >Copy</button>
+                    <button 
+                      className="textareaButton right"
+                      onClick={(e) => {this.setState({
+                        embedInput: this.pasteInto('embed')
+                      })}}
+                    >Paste</button>
+
+                    <h4>Hidden msg:</h4>
+                    <textarea
+                      placeholder="Enter your hidden message here" 
+                      value={this.state.embedHiddenInput}
+                      onChange={(e) => {this.setState({embedHiddenInput: e.target.value})}}
+                    />
+                    <button 
+                      className="textareaButton left"
+                      onClick={(e) => {this.copy(this.state.embedHiddenInput)}}
+                    >Copy</button>
+                    <button 
+                      className="textareaButton right"
+                      onClick={(e) => {this.setState({
+                        embedHiddenInput: this.pasteInto('embedHiddenInput')
+                      })}}
+                    >Paste</button>
+                  
+                    <h4>Output:</h4>
+                    <textarea readOnly
+                      placeholder="When you convert your message, it'll appear here." 
+                      value={this.state.embedOutput}
+                      onChange={(e) => {}}
+                    />
+                    
+                    <button 
+                      className="textareaButton left"
+                      onClick={(e) => {this.copy(this.state.embedOutput)}}
+                    >Copy</button>
+                    <button 
+                      className="textareaButton right"
+                      onClick={(e) => {this.setState({embedOutput: ""})}}
+                    >Clear</button>
+                    <br/><br/>
+                    <div class="buttonCenter">
+                      <button 
+                        class="action"
+                        onClick={(e) => this.embed(this.state.embedInput)}
+                      >Convert</button>
+                    </div>
+                    <div className="tip info moveDown">Use the password tab to further secure your messages.</div>
+                  
+                  </div>
+                : null
+            }
+            
           </div> 
         </header>
       </div>

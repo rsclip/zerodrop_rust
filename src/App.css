@@ -20,6 +20,53 @@
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.tip {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0;
+  padding-top: 4px; padding-bottom: 4px;
+  font-size: 16px;
+}
+
+.tip.info {
+  border: 1px solid rgb(46, 115, 206);
+  color: rgb(72, 137, 221);
+}
+
+.tip.info::before {
+  content: "INFO";
+  margin-right: 10px;
+  color: rgb(68, 132, 216);
+  font-weight: bold;
+}
+
+textarea {
+  width: calc(100% - 22px);
+  height: 50px;
+  border-radius: 5px;
+  border: none;
+  resize: none;
+  padding: 10px;
+  font-size: 18px;
+  font-family: 'Gidole';
+  outline: none;
+
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  
+}
+
+button {
+  font-family: 'Gidole';
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid black;
+  background-color: transparent;
+  font-size: 22px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+}
 .App {
   width: 100%;
   height: 100%;
@@ -28,14 +75,20 @@
 }
 
 .App-header {
-  background-color: #E3E5DD;
+  background: linear-gradient(135deg, #E3E5DD 0%, hsl(0, 0%, 100%) 150%);
   min-height: 100vh;
   font-size: calc(10px + 2vmin);
 }
 
 .frames {
   display: grid;
-  grid-template-columns: 30% 40%;
+  width: 100%;
+  grid-template-columns: 30% 70%;
+}
+
+.frames div {
+  padding-left: 20px; padding-right: 20px;
+  width: calc(100% - 40px);
 }
 
 .frames .nav {
@@ -43,8 +96,6 @@
   width: calc(100% - 40px);
   min-height: 100vh;
   background-color: #2F2A37;
-
-  padding-left: 20px; padding-right: 20px;
 }
 
 .frames .nav .items {
@@ -85,7 +136,7 @@
 }
 
 .frames .nav .items h3:hover {
-  padding-left: 10px;
+  padding-left: 7px;
   background: -webkit-linear-gradient(#E3E5DD, #d87d8c);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -102,7 +153,65 @@
 
 .frames .nav .items .tabSelector {
   position: absolute;
+  width: 0;
   right: -20px; /* account for padding */
 
-  transition: top 0.3s ease;
+  transition: top 0.5s ease;
+}
+
+.frames .content {
+  color: #2F2A37;
+}
+
+.frames .content h1 {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  
+}
+
+.frames .content h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+button.textareaButton {
+  position: relative;
+  width: 50%;
+  margin: 0;
+  font-size: 16px;
+  border: none;
+  background-color: white;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  color: rgb(54, 54, 54);
+  top: -5px;
+}
+
+button.textareaButton.left {border-bottom-right-radius: 0px; border-right: none;}
+button.textareaButton.right {border-bottom-left-radius: 0px;}
+
+button.textareaButton.disabled {
+  cursor: not-allowed;
+  color: rgb(146, 79, 79);
+}
+
+.buttonCenter {
+  width: 100%;
+  text-align: center;
+}
+
+button.action {
+  background-color: #50cc40;
+  font-size: 18px;
+  color: #2F2A37;
+  border: none;
+  width: 300px;
+}
+
+.tip.info.moveDown {
+  margin-top: 10px;
 }
