@@ -84,9 +84,8 @@ impl CharacterSet {
                             // already has a valid code
                             break;
                         }
-                        println!("redoing code for {}", ch);
                     },
-                    _ => {println!("creating code for {}", ch);} // no code yet
+                    _ => {} // no code yet
                 }
 
                 let code_length = self.range(1..3, gen.next_u64());
@@ -97,13 +96,9 @@ impl CharacterSet {
                 Some(x) => x,
                 _ => panic!("no code char")
             });
-
-            println!("Added code for {}", ch);
-                
         }
 
         self.set.insert(' ', SPACE.to_string());
-        println!("{:#?}", self.set);
     }
 
     fn gen_code(&self, length: usize, gen: &mut rand_chacha::ChaCha8Rng) -> String {

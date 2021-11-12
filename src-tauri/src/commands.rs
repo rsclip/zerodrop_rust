@@ -41,7 +41,6 @@ pub mod embedding {
         
         let mut charset = CharacterSet::new(seed);
         charset.gen_set();
-        println!("{:#?}", charset.set);
 
         Ok(charset.embed(input, msg))
     }
