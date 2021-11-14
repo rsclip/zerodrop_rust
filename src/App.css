@@ -30,6 +30,7 @@
 
 .tip.info {
   border: 1px solid rgb(46, 115, 206);
+  background-color: rgba(46, 115, 206, 0.1);
   color: rgb(72, 137, 221);
 }
 
@@ -37,6 +38,19 @@
   content: "INFO";
   margin-right: 10px;
   color: rgb(68, 132, 216);
+  font-weight: bold;
+}
+
+.tip.warning {
+  border: 1px solid rgb(206, 46, 46);
+  background-color: rgba(206, 46, 46, 0.1);
+  color: rgb(224, 36, 36);
+}
+
+.tip.warning::before {
+  content: "WARNING";
+  margin-right: 10px;
+  color: rgb(230, 20, 20);
   font-weight: bold;
 }
 
@@ -55,7 +69,26 @@ textarea {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
   z-index: 10;
-  
+}
+
+input {
+  width: calc(100% - 20px);
+  border-radius: 5px;
+  border: none;
+  border-bottom: 1px solid rgb(173, 173, 173);
+  resize: none;
+  padding: 10px;
+  font-size: 18px;
+  font-family: 'Gidole';
+  outline: none;
+
+  z-index: 10;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+input:invalid {
+  border: 1px solid rgb(255, 86, 86);
 }
 
 button {
@@ -122,10 +155,37 @@ button {
   position: relative;
 }
 
-.frames .nav h2, .frames .nav .items h3 {
+.frames .nav h2, .frames .nav .items h3, .frames .nav h4 {
   color: #E3E5DD;
   letter-spacing: 6px;
   margin-top: 10px; margin-bottom: 10px;
+}
+
+.frames .nav h4 {
+  width: 100%;
+  height: 20px;
+  letter-spacing: 2px;
+  font-weight: 100;
+  font-size: 16px;
+  padding-top: 20px;
+  text-transform: uppercase;
+  vertical-align: middle;
+  padding-left: 0;
+  background: -webkit-linear-gradient(#E3E5DD, #E3E5DD);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  cursor: pointer;
+
+  position: absolute;
+  bottom: 10px;
+
+  transition: background 0.5s ease;
+}
+
+.frames .nav h4:hover {
+  background: -webkit-linear-gradient(#E3E5DD, #d87d8c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .frames .nav h2 {

@@ -1,7 +1,15 @@
 import React from 'react'
 import './App.css'
-
+import AWN from "awesome-notifications"
 import { invoke } from '@tauri-apps/api/tauri'  
+
+// global options
+let globalOptions = {
+  position: "bottom-left",
+};
+
+// Initialize instance of AWN
+let notifier = new AWN(globalOptions)
 
 class App extends React.Component {
   constructor(props) {
@@ -19,6 +27,7 @@ class App extends React.Component {
   }
 
   changeTab(event, arg) {
+    notifier.success("pp");
     switch(arg) {
       case "embed":
         this.setState({tabTop: 15, visibleTab: arg});
@@ -112,15 +121,14 @@ class App extends React.Component {
                   this.changeTab(e, 'passwords')
                 }}>passwords</h3>
   
-                <h3 onClick={(e) => {
-                  this.changeTab(e, 'help')
-                }}>help</h3>
-  
                 <div 
                   id="selector" 
                   className="arrow-left tabSelector"
                   style={{top: this.state.tabTop}}></div>
               </div>
+              <h4 onClick={(e) => {
+                  window.open("https://github.com/Cyclip/zerodrop_rust");
+                }}>Github Repo 🔗</h4>
             </div>
 
             {
@@ -247,6 +255,29 @@ class App extends React.Component {
                     >Clear</button>
 
                     <div className="tip info moveDown">The message will be extracted via the password in the passwords tab.</div>
+
+                  </div>
+                : null
+            }
+
+            {
+              this.state.visibleTab == "passwords"
+                ? <div className="content">
+                    <h1>Passwords</h1>
+                    <h4>Password</h4>
+                    <input
+                      type="password"
+                      placeholder="Password"
+                      maxLength="32"
+                      value={this.state.password}
+                      onChange={(e) => {
+                        const { value, maxLength } = e.target;
+                        this.setState({password: value.slice(0, maxLength)});
+                      }}></input>
+
+                    <h3>test</h3>
+
+                    <div className="tip warning">This password is required for extracting messages. Without the correct password, your hidden message will be unrecoverable.</div>
 
                   </div>
                 : null
