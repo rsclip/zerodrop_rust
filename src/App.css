@@ -114,17 +114,17 @@ button {
   cursor: pointer;
 }
 
-#embedInput:focus ~ #embedInputCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
-#embedInput:focus ~ #embedInputPaste { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
+#embedInput:focus, #embedInput:hover ~ #embedInputCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
+#embedInput:focus, #embedInput:hover ~ #embedInputPaste { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
 
-#embedHidden:focus ~ #embedHiddenCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
-#embedHidden:focus ~ #embedHiddenPaste { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
+#embedHidden:focus, #embedHidden:hover ~ #embedHiddenCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
+#embedHidden:focus, #embedHidden:hover ~ #embedHiddenPaste { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
 
 #embedOutputCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
 #embedOutputClear { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
 
-#extractInput:focus ~ #extractInputCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
-#extractInput:focus ~ #extractInputPaste { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
+#extractInput:focus, #extractInput:hover ~ #extractInputCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
+#extractInput:focus, #extractInput:hover ~ #extractInputPaste { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
 
 #extractOutput ~ #extractOutputCopy { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
 #extractOutput ~ #extractOutputClear { top: -5px; height: auto; color: rgb(54, 54, 54); background-color: rgb(255, 255, 255); visibility: visible;}
@@ -283,10 +283,9 @@ button.textareaButton {
   transition: 
     top 0.5s ease,
     height 0.5s ease,
-    color 0.75s ease,
+    color 0.25s ease,
     background-color 0.5s ease;
-  
-  transition-delay: 0.2s;
+
   z-index: 0;
 }
 button.textareaButton.left {border-bottom-right-radius: 0px; border-right: none;}
