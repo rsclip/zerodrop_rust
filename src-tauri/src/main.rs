@@ -15,7 +15,8 @@ fn main() {
     .invoke_handler(tauri::generate_handler![
         commands::copy_text,
         commands::paste,
-        commands::embedding::embed,
+        commands::transformation::embed,
+        commands::transformation::extract,
     ])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");

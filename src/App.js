@@ -12,7 +12,9 @@ class App extends React.Component {
       embedInput: "", // embed input textarea text
       embedHiddenInput: "", // embed hidden msg
       embedOutput: "", // embed output textarea text
-      password: "example",
+      password: "examplePw",
+      extractInput: "",
+      extractOutput: "",
     };
   }
 
@@ -45,11 +47,18 @@ class App extends React.Component {
         switch (into) {
           case "embed":
             this.setState({embedInput: message});
+            break;
           case "embedHiddenInput":
             this.setState({embedHiddenInput: message});
+            break;
+          case "extractInput":
+            this.setState({extractInput: message});
+            break;
         }
       })
       .catch((err) => {console.log("nooo");})
+
+      console.log(this.state);
   }
 
   embed(inp) {
@@ -61,6 +70,21 @@ class App extends React.Component {
       .then((resp) => {
         this.setState({
           embedOutput: resp
+        })
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+  }
+
+  extract(inp) {
+    invoke('extract', {
+      input: inp,
+      password: this.state.password,
+    })
+      .then((resp) => {
+        this.setState({
+          extractOutput: resp
         })
       })
       .catch((err) => {
@@ -110,9 +134,6 @@ class App extends React.Component {
                       value={this.state.embedInput}
                       onChange={(e) => {this.setState({embedInput: e.target.value})}}
                     />
-                    <div className="textAreaButtonContainer">
-                      
-                    </div>
                     <button 
                       id="embedInputCopy"
                       className="textareaButton left"
@@ -141,9 +162,7 @@ class App extends React.Component {
                     <button 
                       id="embedHiddenPaste"
                       className="textareaButton right"
-                      onClick={(e) => {this.setState({
-                        embedHiddenInput: this.pasteInto('embedHiddenInput')
-                      })}}
+                      onClick={(e) => {this.pasteInto('embedHiddenInput')}}
                     >Paste</button>
                   
                     <h4>Output</h4>
@@ -164,15 +183,71 @@ class App extends React.Component {
                       className="textareaButton right"
                       onClick={(e) => {this.setState({embedOutput: ""})}}
                     >Clear</button>
-                    <div class="buttonCenter">
+                    <div className="buttonCenter">
                       <button 
-                        class="action"
+                        className="action"
                         onClick={(e) => this.embed(this.state.embedInput)}
-                      >Convert</button>
+                      >Embed</button>
                     </div>
                     <br/>
                     <div className="tip info moveDown">Use the password tab to further secure your messages.</div>
                   
+                  </div>
+                : null
+            }
+
+            {
+              this.state.visibleTab == "extract"
+                ? <div className="content">
+                    <h1>Extract messages</h1>
+                    <h4>Message</h4>
+                    <textarea
+                      id="extractInput"
+                      placeholder="Message containing hidden message here" 
+                      value={this.state.extractInput}
+                      onChange={(e) => {this.setState({extractInput: e.target.value})}}
+                    />
+                    <button 
+                      id="extractInputCopy"
+                      className="textareaButton left"
+                      onClick={(e) => {this.copy(this.state.extractInput)}}
+                    >Copy</button>
+                    <button 
+                      id="extractInputPaste"
+                      className="textareaButton right"
+                      onClick={(e) => {this.pasteInto('extractInput')}}
+                    >Paste</button>
+                    
+                    <div className="buttonCenter">
+                      <button 
+                        className="action"
+                        onClick={(e) => this.extract(this.state.extractInput)}
+                      >Extract</button>
+                    </div>
+
+                    <br/><br/>
+
+                    <h4>Hidden message</h4>
+                    <textarea readOnly
+                      id="extractOutput"
+                      placeholder="Your hidden message will appear here." 
+                      value={this.state.extractOutput}
+                      onChange={(e) => {}}
+                    />
+                    
+                    <button 
+                      id="extractOutputCopy"
+                      className="textareaButton left"
+                      onClick={(e) => {this.copy(this.state.extractOutput)}}
+                    >Copy</button>
+                    <button 
+                      id="extractOutputClear"
+                      className="textareaButton right"
+                      onClick={(e) => {this.setState({extractOutput: ""})}}
+                    >Clear</button>
+
+                    <div className="tip info moveDown">The message will be extracted via the password in the passwords tab.</div>
+
                   </div>
                 : null
             }

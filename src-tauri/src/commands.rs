@@ -28,20 +28,33 @@ pub fn paste() -> Result<String, ()> {
     }
 }
 
-pub mod embedding {
+pub mod transformation {
     use crate::{
         password::seed_from,
         charset::CharacterSet,
     };
 
     #[tauri::command]
-    pub fn embed(input: String, msg: String, password: String) -> Result<String, ()> {
+    pub fn embed(input: String, msg: String, password: String) -> Result<String, String> {
         println!("called with {}, {}, {}", input, msg, password);
         let seed = seed_from(password);
         
         let mut charset = CharacterSet::new(seed);
         charset.gen_set();
 
-        Ok(charset.embed(input, msg))
+        charset.embed(input, msg)
+    }
+
+    #[tauri::command]
+    pub fn extract(input: String, password: String) -> Result<String, String> {
+        let seed = seed_from(password);
+
+        let mut charset = CharacterSet::new(seed);
+        charset.gen_set();
+        println!("Generated charset, extracting {}", &input);
+
+        let r = charset.extract(input);
+        println!("Result: {:?}", r);
+        r
     }
 }
