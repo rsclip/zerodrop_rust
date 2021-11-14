@@ -20,14 +20,13 @@ class App extends React.Component {
       embedInput: "", // embed input textarea text
       embedHiddenInput: "", // embed hidden msg
       embedOutput: "", // embed output textarea text
-      password: "examplePw",
+      password: "",
       extractInput: "",
       extractOutput: "",
     };
   }
 
   changeTab(event, arg) {
-    notifier.success("pp");
     switch(arg) {
       case "embed":
         this.setState({tabTop: 15, visibleTab: arg});
@@ -71,37 +70,100 @@ class App extends React.Component {
   }
 
   embed(inp) {
-    invoke('embed', {
-      input: inp,
-      msg: this.state.embedHiddenInput,
-      password: this.state.password,
-    })
-      .then((resp) => {
-        this.setState({
-          embedOutput: resp
+    if (!this.blockInvalidPw()) {
+      invoke('embed', {
+        input: inp,
+        msg: this.state.embedHiddenInput,
+        password: this.state.password,
+      })
+        .then((resp) => {
+          this.setState({
+            embedOutput: resp
+          });
+          notifier.success("Embedded message!");
         })
-      })
-      .catch((err) => {
-        console.log(err);
-      })
+        .catch((err) => {
+          notifier.alert("There was an error while processing: " + err);
+          console.log(err);
+        })
+    }
   }
 
   extract(inp) {
-    invoke('extract', {
-      input: inp,
-      password: this.state.password,
-    })
-      .then((resp) => {
-        this.setState({
-          extractOutput: resp
+    if (!this.blockInvalidPw()) {
+      invoke('extract', {
+        input: inp,
+        password: this.state.password,
+      })
+        .then((resp) => {
+          this.setState({
+            extractOutput: resp
+          });
+          notifier.success("Embedded message!");
         })
+        .catch((err) => {
+          notifier.alert("There was an error while processing: " + err);
+          console.log(err);
       })
-      .catch((err) => {
-        console.log(err);
-      })
+    }
+  }
+
+  blockInvalidPw() {
+    // returns true if pw blocked
+    var pw = this.state.password;
+
+    if (pw == "") {
+      notifier.alert("Enter a password in the passwords tab");
+      this.changeTab(null, "passwords");
+      return true;
+    }
+
+    if (!this.betweenLength(pw, 4, 32)) {
+      notifier.alert("Password is not between 4 and 32 characters");
+      this.changeTab(null, "passwords");
+      return true;
+    }
+
+    if (!this.hasNumberSymbol(pw)) {
+      notifier.alert("Password does not contain a number or symbol");
+      this.changeTab(null, "passwords");
+      return true;
+    }
+
+    return false;
+  }
+
+  hasNumberSymbol(s) {
+    console.log(s);
+
+    const chars = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~'];
+
+    for (const c of chars) {
+      if (s.indexOf(c) > -1) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  betweenLength(string, min, max) {
+    return (string.length >= 4) && (string.length <= 32)
+  }
+
+  passwordIsValid() {
+    var pw = this.state.password;
+    return this.betweenLength(pw, 4, 32) && (this.hasNumberSymbol(pw))
+  }
+
+  openRepo() {
+    window.open("https://github.com/Cyclip/zerodrop_rust");
   }
 
   render() {
+    const check = "fas fa-check fa-xs";
+    const cross = "far fa-times-circle";
+
     return (
       <div className="App">
         <header className="App-header">
@@ -127,7 +189,7 @@ class App extends React.Component {
                   style={{top: this.state.tabTop}}></div>
               </div>
               <h4 onClick={(e) => {
-                  window.open("https://github.com/Cyclip/zerodrop_rust");
+                  this.openRepo();
                 }}>Github Repo 🔗</h4>
             </div>
 
@@ -198,7 +260,7 @@ class App extends React.Component {
                       >Embed</button>
                     </div>
                     <br/>
-                    <div className="tip info moveDown">Use the password tab to further secure your messages.</div>
+                    <div className="tip info toBottom">Use the password tab to further secure your messages.</div>
                   
                   </div>
                 : null
@@ -254,7 +316,7 @@ class App extends React.Component {
                       onClick={(e) => {this.setState({extractOutput: ""})}}
                     >Clear</button>
 
-                    <div className="tip info moveDown">The message will be extracted via the password in the passwords tab.</div>
+                    <div className="tip info toBottom">The message will be extracted via the password in the passwords tab.</div>
 
                   </div>
                 : null
@@ -270,14 +332,29 @@ class App extends React.Component {
                       placeholder="Password"
                       maxLength="32"
                       value={this.state.password}
+                      className={
+                        this.passwordIsValid()
+                          ? null
+                          : "invalid"
+                      }
                       onChange={(e) => {
                         const { value, maxLength } = e.target;
                         this.setState({password: value.slice(0, maxLength)});
                       }}></input>
 
-                    <h3>test</h3>
+                      <h4 className={
+                        this.betweenLength(this.state.password, 4, 32)
+                        ? "pwRequirement satisfied"
+                        : "pwRequirement"
+                      }>Must be between 4 - 32 characters</h4>
 
-                    <div className="tip warning">This password is required for extracting messages. Without the correct password, your hidden message will be unrecoverable.</div>
+                      <h4 className={
+                        this.hasNumberSymbol(this.state.password)
+                        ? "pwRequirement satisfied"
+                        : "pwRequirement"
+                      }>Must contain atleast 1 symbol/number</h4>
+
+                    <div className="tip warning toBottom">This password is required for extracting messages. Without the correct password, your hidden message will be unrecoverable.</div>
 
                   </div>
                 : null
