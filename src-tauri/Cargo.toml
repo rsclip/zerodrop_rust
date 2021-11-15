@@ -1,11 +1,10 @@
 [package]
 name = "zerodrop"
-version = "0.1.0"
+version = "1.0.0"
 description = "ZeroDrop"
 authors = ["Cyclip <ifazahmed375@gmail.com>"]
-license = ""
-repository = ""
-default-run = "app"
+license = "MIT"
+repository = "https://ww.github.com/Cyclip/zerodrop_rust"
 edition = "2018"
 build = "src/build.rs"
 
